@@ -19,6 +19,7 @@ To run your code with all @Cassertte statements enabled, use @withCassertte:
 ```
 """
 macro Cassertte(expr)
+    # Do `nothing` by default, and the `@assert` when run with `CassertteSwitch`.
     quote
         Toggles.@toggleable(nothing, CassertteSwitch(), @assert($(esc(expr)), $(string(expr))))
     end
