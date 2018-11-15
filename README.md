@@ -23,3 +23,10 @@ To run your code with all @Cassertte statements enabled, use @withCassertte:
     @withCassertte foo(1,2)
 ```
 ````
+
+## Installation
+Cassette is built with [`Toggles.jl`](https://github.com/NHDaly/Toggles.jl), which you should install for this to work:
+```
+(v1.0) pkg> add https://github.com/NHDaly/Toggles.jl
+(v1.0) pkg> add https://github.com/NHDaly/Cassertte.jl
+```
