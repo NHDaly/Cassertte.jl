@@ -1,13 +1,20 @@
 module CassertteTests
 
 using Cassertte
+
 using Test
 
 @testset "Basic assert" begin
     x = 3
-    @test_throws AssertionError @Cassertte x == 5
-
+    # The macro does nothing by default.
     @test (@Cassertte x == 3) == nothing
+    @test (@Cassertte x == 5) == nothing
+
+    # When enabled via @withCassertte, the macro is identical to assert
+    @test (@assert x == 3) == nothing
+    @test (@withCassertte @Cassertte x == 3) == nothing
+    @test_throws AssertionError @assert x == 5
+    @test_throws AssertionError @withCassertte @Cassertte x == 5
 end
 
 @testset "Enable and disable the entire expression" begin
@@ -16,11 +23,12 @@ end
         return length(a)
     end
 
-    @test foo([]) == 1
-    @test_throws AssertionError foo([0])
-
-    out = @noCassertte foo([0])
+    out = foo([0])
     @test out == 1
+
+    # When running with Cassertte enabled, the array gets modified
+    @test (@withCassertte foo([])) == 1
+    @test_throws AssertionError @withCassertte foo([0])
 end
 
 end  # module
